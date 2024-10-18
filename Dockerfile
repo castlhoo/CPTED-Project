@@ -17,7 +17,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # crime_prediction.py 및 기타 소스 파일을 복사
-COPY crime_prediction.py .
+COPY Crime_Predict.py .
 
-# 기본 명령어 설정 (컨테이너 실행 시 crime_prediction.py 실행)
-CMD ["python", "crime_prediction.py"]
+# 기본 명령어 설정 (컨테이너 실행 시 Crime_Predict.py 실행)
+CMD ["python", "Crime_Predict.py"]
