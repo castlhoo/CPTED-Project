@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: crime-prediction-deployment
+  name: crime-prediction-app
 spec:
   replicas: 3
   selector:
@@ -16,4 +16,17 @@ spec:
       - name: crime-prediction
         image: castlehoo/crime_prediction_image:latest
         ports:
-        - containerPort: 8081 # 컨테이너에서 사용하는 포트
+        - containerPort: 8081  # 컨테이너 내부에서 8081 포트를 사용
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crime-prediction-service
+spec:
+  type: NodePort
+  selector:
+    app: crime-prediction
+  ports:
+    - port: 8081  # 외부에서 접근할 서비스 포트를 8081로 변경
+      targetPort: 8081  # 컨테이너의 8081 포트로 연결
+      nodePort: 30007  # NodePort를 그대로 유지 (클러스터 외부에서 접근할 포트)
