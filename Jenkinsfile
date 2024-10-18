@@ -13,7 +13,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def imageName = "your_dockerhub_username/crime_prediction_image:${env.BUILD_NUMBER}"
+                    def imageName = "castlehoo/crime_prediction_image:${env.BUILD_NUMBER}"
                     // 도커 이미지 빌드
                     sh "docker build -t ${imageName} ."
                 }
@@ -22,7 +22,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    def imageName = "your_dockerhub_username/crime_prediction_image:${env.BUILD_NUMBER}"
+                    def imageName = "castlehoo/crime_prediction_image:${env.BUILD_NUMBER}"
                     // Docker Hub에 로그인 및 이미지 푸시
                     sh "echo ${DOCKER_HUB_CREDENTIALS_PSW} | docker login -u ${DOCKER_HUB_CREDENTIALS_USR} --password-stdin"
                     sh "docker push ${imageName}"
