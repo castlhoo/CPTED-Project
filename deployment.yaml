@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crime-prediction-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: crime-prediction
+  template:
+    metadata:
+      labels:
+        app: crime-prediction
+    spec:
+      containers:
+      - name: crime-prediction
+        image: castlehoo/crime_prediction_image:latest
+        ports:
+        - containerPort: 8081 # 컨테이너에서 사용하는 포트
