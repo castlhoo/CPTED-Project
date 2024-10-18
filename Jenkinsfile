@@ -2,12 +2,11 @@ pipeline {
     agent any
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials-id')
-        KUBECONFIG = credentials('kubeconfig-credentials-id')  // kubeconfig 파일을 사용한 Kubernetes 접근
     }
     stages {
         stage('Checkout') {
             steps {
-                // 깃허브에서 코드 가져오기
+                // GitHub에서 소스코드 가져오기
                 checkout scm
             }
         }
@@ -32,16 +31,19 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                script {
-                    // kubeconfig 파일을 사용하여 kubectl 명령어 실행
-                    sh "kubectl --kubeconfig=${KUBECONFIG} apply -f deployment.yaml"
+                // kubeconfig-credentials-id 기반으로 쿠버네티스에 접근
+                withCredentials([file(credentialsId: 'kubeconfig-credentials-id', variable: 'KUBECONFIG')]) {
+                    script {
+                        // kubeconfig 파일을 사용하여 kubectl로 배포 실행
+                        sh "kubectl --kubeconfig=$KUBECONFIG apply -f deployment.yaml --validate=false"
+                    }
                 }
             }
         }
     }
     post {
         always {
-            // 작업 완료 후 로그아웃
+            // 작업 후 도커 로그아웃
             sh 'docker logout'
         }
     }
