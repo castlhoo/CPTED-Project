@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: crime-prediction
-        image: castlehoo/crime_prediction_image:latest
+        image: castlehoo/crime_prediction_image:20
         ports:
         - containerPort: 8080  # 컨테이너 내부에서 8081 포트를 사용
 ---
